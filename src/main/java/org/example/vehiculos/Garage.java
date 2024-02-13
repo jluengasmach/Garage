@@ -4,49 +4,11 @@ import java.util.*;
 
 public class Garage {
     private int id;
-    private List<Vehiculo> listaDeVehiculos;
+    private List<Vehiculo> vehiculos;
 
-    public Garage(int id, List<Vehiculo> listaDeVehiculos) {
+    public Garage(int id, List<Vehiculo> vehiculos) {
         this.id = id;
-        this.listaDeVehiculos = listaDeVehiculos;
-    }
-
-    public List<Vehiculo> ordernarVehiculosPrecio(){
-        return this.listaDeVehiculos.stream()
-                                    .sorted(Comparator.comparing(Vehiculo::getCosto))
-                                    .toList();
-    }
-    public List<Vehiculo> ordernarVehiculosMarcaPrecio(){
-        return this.listaDeVehiculos.stream()
-                .sorted(Comparator.comparing(Vehiculo::getCosto))
-                .sorted(Comparator.comparing(Vehiculo::getMarca))
-                .toList();
-    }
-
-    public List<Vehiculo> ordernarVehiculosMenor1000(){
-        return this.listaDeVehiculos.stream()
-                .filter(vehiculo -> vehiculo.getCosto() < 1000)
-                .toList();
-    }
-
-    public List<Vehiculo> ordernarVehiculosMayorIgual1000(){
-        return this.listaDeVehiculos.stream()
-                .filter(vehiculo -> vehiculo.getCosto() >= 1000)
-                .toList();
-    }
-
-    public double promedioTotal(){
-        return this.listaDeVehiculos.stream()
-                                    .mapToInt(vehiculo -> vehiculo.getCosto())
-                                    .average()
-                                    .orElse(0);
-    }
-
-    public List<Vehiculo> aplicarDescuento(int anio, int descuento){
-        return this.listaDeVehiculos.stream()
-                .filter(vehiculo -> vehiculo.getAnio() <= anio)
-                .map(v -> v.aplicarDescuento(descuento))
-                .toList();
+        this.vehiculos = vehiculos;
     }
 
     public int getId() {
@@ -57,11 +19,52 @@ public class Garage {
         this.id = id;
     }
 
-    public List<Vehiculo> getListaDeVehiculos() {
-        return this.listaDeVehiculos;
+    public List<Vehiculo> getvehiculos() {
+        return this.vehiculos;
     }
 
-    public void setListaDeVehiculos(ArrayList<Vehiculo> listaDeVehiculos) {
-        this.listaDeVehiculos = listaDeVehiculos;
+    public void setvehiculos(ArrayList<Vehiculo> vehiculos) {
+        this.vehiculos = vehiculos;
+    }
+
+    public List<Vehiculo> ordernarVehiculosPrecio(){
+        return this.vehiculos.stream()
+                                    .sorted(Comparator.comparing(Vehiculo::getPrecio))
+                                    .toList();
+    }
+    public List<Vehiculo> ordernarVehiculosMarcaPrecio(){
+        return this.ordernarVehiculosPrecio().stream()
+                .sorted(Comparator.comparing(Vehiculo::getMarca))
+                .toList();
+        // return this.vehiculos.stream()
+        //         .sorted(Comparator.comparing(Vehiculo::getPrecio))
+        //         .sorted(Comparator.comparing(Vehiculo::getMarca))
+        //         .toList();
+    }
+
+    public List<Vehiculo> ordernarVehiculosMenor1000(){
+        return this.vehiculos.stream()
+                .filter(vehiculo -> vehiculo.getPrecio() < 1000)
+                .toList();
+    }
+
+    public List<Vehiculo> ordernarVehiculosMayorIgual1000(){
+        return this.vehiculos.stream()
+                .filter(vehiculo -> vehiculo.getPrecio() >= 1000)
+                .toList();
+    }
+
+    public double promedioTotal(){
+        return this.vehiculos.stream()
+                                    .mapToInt(vehiculo -> vehiculo.getPrecio())
+                                    .average()
+                                    .orElse(0);
+    }
+
+    public List<Vehiculo> aplicarDescuento(int anio, int descuento){
+        return this.vehiculos.stream()
+                .filter(vehiculo -> vehiculo.getAnio() <= anio)
+                .map(v -> v.aplicarDescuento(descuento))
+                .toList();
     }
 }
